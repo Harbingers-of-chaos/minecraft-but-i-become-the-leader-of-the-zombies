@@ -23,11 +23,7 @@
 		]
 	},
 	"mixins": [
-		"leader-of-the-zombies.mixins.json",
-		{
-			"config": "leader-of-the-zombies.client.mixins.json",
-			"environment": "client"
-		}
+		"leader-of-the-zombies.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.16.3",

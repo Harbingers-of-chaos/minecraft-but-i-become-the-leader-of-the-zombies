@@ -3,7 +3,8 @@
 	"package": "su.harbingers_of_chaos.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"ExampleMixin"
+		"PlayerAbilitiesMixin",
+		"ItemsMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
