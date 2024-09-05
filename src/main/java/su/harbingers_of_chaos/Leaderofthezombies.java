@@ -10,6 +10,7 @@ import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.server.command.CommandManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import su.harbingers_of_chaos.screen.ScreenTest;
 
 import javax.swing.text.html.parser.Entity;
 
@@ -55,10 +56,12 @@ public class Leaderofthezombies implements ModInitializer {
 			case 2:
 				exercise = "Убить 5 жителей";
 				exemple = "Убито: ";
+				openScreen();
 				break;
 			case 3:
 				exercise = "Заразить 10 разумных существ: жители, разбойники и пиглины";
 				exemple = "Заражено: ";
+				openScreen();
 				break;
 			case 4:
 				exercise = "Заразить 10 существ не своими зубами";
@@ -73,5 +76,8 @@ public class Leaderofthezombies implements ModInitializer {
 				exemple = "Заражено: ";
 				break;
 		}
+	}
+	public static void openScreen() {
+		MinecraftClient.getInstance().setScreen(new ScreenTest());
 	}
 }
