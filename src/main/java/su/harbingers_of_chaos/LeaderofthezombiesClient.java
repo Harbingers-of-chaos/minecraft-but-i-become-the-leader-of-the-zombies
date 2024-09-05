@@ -31,6 +31,7 @@ public class LeaderofthezombiesClient implements ClientModInitializer {
 			}
 			while (INFECTIONS.wasPressed()){
 
+				client.setScreen(new ScreenTest());
 			}
 		});
 
