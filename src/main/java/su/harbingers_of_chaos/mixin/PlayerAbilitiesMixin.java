@@ -11,8 +11,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import su.harbingers_of_chaos.interfaces.Stages;
 
-import static su.harbingers_of_chaos.Leaderofthezombies.LOGGER;
-import static su.harbingers_of_chaos.Leaderofthezombies.stages;
+import static su.harbingers_of_chaos.Leaderofthezombies.*;
 
 
 @Mixin(PlayerAbilities.class)
@@ -51,7 +50,8 @@ public class PlayerAbilitiesMixin implements Stages {
         nbtCompound.putBoolean("mayBuild", this.allowModifyWorld);
         nbtCompound.putFloat("flySpeed", this.flySpeed);
         nbtCompound.putFloat("walkSpeed", this.walkSpeed);
-//        nbtCompound.putByte("stages", stages);
+        nbtCompound.putByte("stages", stages);
+        nbtCompound.putByte("collected", collected);
         nbt.put("abilities", nbtCompound);
         if (SharedConstants.isDevelopment) LOGGER.info("writeNbt: " + nbt.toString());
         ci.cancel();
@@ -65,7 +65,10 @@ public class PlayerAbilitiesMixin implements Stages {
             this.flying = nbtCompound.getBoolean("flying");
             this.allowFlying = nbtCompound.getBoolean("mayfly");
             this.creativeMode = nbtCompound.getBoolean("instabuild");
-//            stages = nbtCompound.getByte("stages");
+            if(nbtCompound.getByte("stages")!=0){
+                stages = nbtCompound.getByte("stages");
+                collected = nbtCompound.getByte("collected");
+            }
             if (nbtCompound.contains("flySpeed", 99)) {
                 this.flySpeed = nbtCompound.getFloat("flySpeed");
                 this.walkSpeed = nbtCompound.getFloat("walkSpeed");

@@ -44,21 +44,20 @@ public class ItemsMixin {
     @Shadow
     protected HungerManager hungerManager;
 
-
-    @Shadow @Final private static Logger LOGGER;
-
     @Inject(method = "eatFood", at = @At("HEAD"))
     private void onEatFood(World world, ItemStack stack, FoodComponent foodComponent, CallbackInfoReturnable<ItemStack> cir) {
-        LOGGER.info("Stages:"+String.valueOf(stages));
-        LOGGER.info("Exercise:"+String.valueOf(collected));
+        if (SharedConstants.isDevelopment) LOGGER.info("Stages:"+String.valueOf(stages));
+        if (SharedConstants.isDevelopment) LOGGER.info("Exercise:"+String.valueOf(collected));
         if(stack.isIn(ItemTags.MEAT) && !stack.isIn(ModTags.COOKED_MEAT)){
             if (stages == 1){
                 collected++;
-                if (collected == 30){
+                if (collected == 2){
                     Leaderofthezombies.setStages(0);
+                    if (SharedConstants.isDevelopment) LOGGER.info("Stages:"+String.valueOf(stages));
+                    if (SharedConstants.isDevelopment) LOGGER.info("Exercise:"+String.valueOf(collected));
+                    if (SharedConstants.isDevelopment) LOGGER.info("MEAT not cooked");
                 }
             }
-            if (SharedConstants.isDevelopment) LOGGER.info("MEAT not cooked");
         }else if(stack.isIn(ModTags.COOKED_MEAT)){
             if (SharedConstants.isDevelopment) LOGGER.info("COOKED");
         }

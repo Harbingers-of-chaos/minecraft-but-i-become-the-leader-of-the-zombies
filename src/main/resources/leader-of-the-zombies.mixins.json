@@ -4,7 +4,16 @@
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
 		"PlayerAbilitiesMixin",
-		"ItemsMixin"
+		"ItemsMixin",
+		"MinecraftClientMixin",
+		"MobEntityMixin",
+		"textures.CowEntityRendererMixin",
+		"textures.ChickenEntityRendererMixin",
+		"textures.PigEntityRendererMixin",
+		"textures.SheepEntityRendererMixin",
+		"textures.HorseEntityRendererMixin",
+		"textures.VillagerEntityRendererMixin",
+		"textures.WanderingTraderEntityRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

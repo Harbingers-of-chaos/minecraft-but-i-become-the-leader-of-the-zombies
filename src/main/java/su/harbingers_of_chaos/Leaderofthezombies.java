@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityCombatEvents;
+import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.EntityType;
 import net.minecraft.registry.entry.RegistryEntryList;
@@ -36,7 +37,7 @@ public class Leaderofthezombies implements ModInitializer {
 		ServerEntityCombatEvents.AFTER_KILLED_OTHER_ENTITY.register((world, entity, killedEntity) -> {
 			if (entity.getType() == EntityType.PLAYER && killedEntity.getType() == EntityType.VILLAGER && stages == 2){
 				collected++;
-				if (collected == 5){
+				if (collected == 1){
 					setStages(0);
 				}
 			}
@@ -44,10 +45,16 @@ public class Leaderofthezombies implements ModInitializer {
 	}
 
 
-
+	public static void setExercise(byte stages,byte collected) {
+		Leaderofthezombies.stages = stages;
+		Leaderofthezombies.collected = collected;
+	}
 	public static void setStages(int value){
 		stages++;
 		collected = (byte) value;
+		if (SharedConstants.isDevelopment) LOGGER.info("Stages:"+String.valueOf(stages));
+		if (SharedConstants.isDevelopment) LOGGER.info("Exercise:"+String.valueOf(collected));
+
 		switch(stages){
 			case 1:
 				exercise = "Съесть 15 кусков сырого мяса";
@@ -56,12 +63,10 @@ public class Leaderofthezombies implements ModInitializer {
 			case 2:
 				exercise = "Убить 5 жителей";
 				exemple = "Убито: ";
-				openScreen();
 				break;
 			case 3:
 				exercise = "Заразить 10 разумных существ: жители, разбойники и пиглины";
 				exemple = "Заражено: ";
-				openScreen();
 				break;
 			case 4:
 				exercise = "Заразить 10 существ не своими зубами";
@@ -76,8 +81,5 @@ public class Leaderofthezombies implements ModInitializer {
 				exemple = "Заражено: ";
 				break;
 		}
-	}
-	public static void openScreen() {
-		MinecraftClient.getInstance().setScreen(new ScreenTest());
 	}
 }

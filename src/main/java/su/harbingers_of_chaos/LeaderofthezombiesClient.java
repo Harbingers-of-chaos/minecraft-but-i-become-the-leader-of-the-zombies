@@ -1,37 +1,46 @@
 package su.harbingers_of_chaos;
 
-import io.wispforest.owo.ui.component.Components;
-import io.wispforest.owo.ui.container.Containers;
-import io.wispforest.owo.ui.core.*;
-import io.wispforest.owo.ui.hud.Hud;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.minecraft.client.gui.screen.ingame.InventoryScreen;
+import net.minecraft.client.gui.screen.world.EditGameRulesScreen;
+import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
+import net.minecraft.client.gui.widget.ElementListWidget;
+import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.mob.MobEntity;
 import org.lwjgl.glfw.GLFW;
+import su.harbingers_of_chaos.interfaces.MobEntityInterface;
 import su.harbingers_of_chaos.screen.ScreenTest;
+import su.harbingers_of_chaos.screen.TestScreen;
 
 import static su.harbingers_of_chaos.Leaderofthezombies.LOGGER;
-import static su.harbingers_of_chaos.Leaderofthezombies.MOD_ID;
+import static su.harbingers_of_chaos.Leaderofthezombies.stages;
+import static su.harbingers_of_chaos.util.ModTags.INTELLIGENT_BEINGS;
 
 public class LeaderofthezombiesClient implements ClientModInitializer {
 
 	private static final KeyBinding CONTROL = new KeyBinding("key.owo-ui-academy.begin", GLFW.GLFW_KEY_G, "key.categories.misc");
-	private static final KeyBinding INFECTIONS = new KeyBinding("key.owo-ui-academy.begin", GLFW.GLFW_KEY_R, "key.categories.misc");
+	private static final KeyBinding INFECTIONS = new KeyBinding("key.owo-ui-academy.saa", GLFW.GLFW_KEY_R, "key.categories.misc");
 
 	@Override
 	public void onInitializeClient() {
 		KeyBindingHelper.registerKeyBinding(CONTROL);
+		KeyBindingHelper.registerKeyBinding(INFECTIONS);
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			while (CONTROL.wasPressed()) {
-				client.setScreen(new ScreenTest());
+				client.setScreen(new TestScreen());
 			}
 			while (INFECTIONS.wasPressed()){
+				Entity entity = client.targetedEntity;
+				if (entity != null && entity instanceof MobEntity && entity instanceof MobEntityInterface && !((MobEntityInterface) entity).isZombe()
+//					){
+						&& stages > 2 && (stages == 3 ? entity.getType().isIn(INTELLIGENT_BEINGS) : true)) {
+					((MobEntityInterface) entity).Infections(client);
 
-				client.setScreen(new ScreenTest());
+				}
 			}
 		});
 
