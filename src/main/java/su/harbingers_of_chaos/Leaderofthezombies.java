@@ -11,7 +11,6 @@ import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.server.command.CommandManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import su.harbingers_of_chaos.screen.ScreenTest;
 
 import javax.swing.text.html.parser.Entity;
 
@@ -54,7 +53,10 @@ public class Leaderofthezombies implements ModInitializer {
 		collected = (byte) value;
 		if (SharedConstants.isDevelopment) LOGGER.info("Stages:"+String.valueOf(stages));
 		if (SharedConstants.isDevelopment) LOGGER.info("Exercise:"+String.valueOf(collected));
+		setExercise();
 
+	}
+	public static void setExercise(){
 		switch(stages){
 			case 1:
 				exercise = "Съесть 15 кусков сырого мяса";

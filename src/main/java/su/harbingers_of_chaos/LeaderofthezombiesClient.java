@@ -13,7 +13,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.MobEntity;
 import org.lwjgl.glfw.GLFW;
 import su.harbingers_of_chaos.interfaces.MobEntityInterface;
-import su.harbingers_of_chaos.screen.ScreenTest;
 import su.harbingers_of_chaos.screen.TestScreen;
 
 import static su.harbingers_of_chaos.Leaderofthezombies.LOGGER;

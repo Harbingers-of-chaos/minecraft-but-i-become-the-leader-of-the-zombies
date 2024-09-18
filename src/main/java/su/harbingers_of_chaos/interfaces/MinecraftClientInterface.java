@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.UUID;
 
 public interface MinecraftClientInterface {
-    public LinkedHashMap<String, UUID> getZombes();
+//    public LinkedHashMap<String, MobEntity> getZombes();
+    public LinkedHashMap<String, UUID> getZombesUUID();
     public void addZombee(MobEntity zombee);
 }

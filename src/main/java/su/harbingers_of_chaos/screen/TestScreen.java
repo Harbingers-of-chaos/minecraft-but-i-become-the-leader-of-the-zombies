@@ -12,6 +12,7 @@ import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -46,14 +47,20 @@ public class TestScreen extends Screen {
 
     protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
 //        context.drawTexture(BACKGROUND_TEXTURE, i, j, 0, 0, this.backgroundWidth, this.backgroundHeight);
-        if(!((MinecraftClientInterface)this.client).getZombes().isEmpty()){
-            final int[] x = {100};
-            ((MinecraftClientInterface)this.client).getZombes().forEach((key, value) -> {
-//                LOGGER.info("Key = " + key + " Value = " + value);
-                if(this.client.getServer().getOverworld().getEntity(value) instanceof MobEntity){
-                    drawEntity(context, x[0], 108, x[0] + 50, 178, 30, 0.0625F, mouseX, mouseY, (LivingEntity) Objects.requireNonNull(this.client.getServer().getOverworld().getEntity(value)));
-                    context.drawText(MinecraftClient.getInstance().textRenderer,key, x[0],185,16777215,true);
+        if(!((MinecraftClientInterface)this.client).getZombesUUID().isEmpty()){
+            final int[] x = {75,75};
+            ((MinecraftClientInterface)this.client).getZombesUUID().forEach((key, value) -> {
+                Entity entity = this.client.getServer().getOverworld().getEntity(value);
+//                LOGGER.info("2:Key = " + key + " Value = " + entity);
+                if(entity instanceof MobEntity){
+                    if( x[0] == 915){
+                        x[0] = 75;
+                        x[1] += 100;
+                    }
+                    drawEntity(context, x[0], x[1], x[0] + 50, x[1]+70, 30, 0.0625F, mouseX, mouseY, (LivingEntity)entity);
+                    context.drawText(MinecraftClient.getInstance().textRenderer,key, x[0],x[1]+80,16777215,true);
                     x[0] += 70;
+
                 }
 
             });
@@ -68,6 +75,8 @@ public class TestScreen extends Screen {
         context.enableScissor(x1, y1, x2, y2);
         float i = (float)Math.atan((double)((g - mouseX) / 40.0F));
         float j = (float)Math.atan((double)((h - mouseY) / 40.0F));
+//        float i = 0;
+//        float j = 0;
         Quaternionf quaternionf = (new Quaternionf()).rotateZ(3.1415927F);
         Quaternionf quaternionf2 = (new Quaternionf()).rotateX(j * 20.0F * 0.017453292F);
         quaternionf.mul(quaternionf2);
