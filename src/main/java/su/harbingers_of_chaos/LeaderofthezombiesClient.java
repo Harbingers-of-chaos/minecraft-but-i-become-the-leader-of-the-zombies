@@ -3,6 +3,7 @@ package su.harbingers_of_chaos;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.gui.screen.world.EditGameRulesScreen;
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
@@ -12,20 +13,21 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.MobEntity;
 import org.lwjgl.glfw.GLFW;
+import su.harbingers_of_chaos.interfaces.MinecraftClientInterface;
 import su.harbingers_of_chaos.interfaces.MobEntityInterface;
 import su.harbingers_of_chaos.screen.TestScreen;
 
-import static su.harbingers_of_chaos.Leaderofthezombies.LOGGER;
-import static su.harbingers_of_chaos.Leaderofthezombies.stages;
+import static su.harbingers_of_chaos.Leaderofthezombies.*;
 import static su.harbingers_of_chaos.util.ModTags.INTELLIGENT_BEINGS;
 
 public class LeaderofthezombiesClient implements ClientModInitializer {
-
+	public static final MinecraftClient MC = MinecraftClient.getInstance();
 	private static final KeyBinding CONTROL = new KeyBinding("key.owo-ui-academy.begin", GLFW.GLFW_KEY_G, "key.categories.misc");
 	private static final KeyBinding INFECTIONS = new KeyBinding("key.owo-ui-academy.saa", GLFW.GLFW_KEY_R, "key.categories.misc");
 
 	@Override
 	public void onInitializeClient() {
+
 		KeyBindingHelper.registerKeyBinding(CONTROL);
 		KeyBindingHelper.registerKeyBinding(INFECTIONS);
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
@@ -33,13 +35,13 @@ public class LeaderofthezombiesClient implements ClientModInitializer {
 				client.setScreen(new TestScreen());
 			}
 			while (INFECTIONS.wasPressed()){
-				Entity entity = client.targetedEntity;
-				if (entity != null && entity instanceof MobEntity && entity instanceof MobEntityInterface && !((MobEntityInterface) entity).isZombe()
+					Entity entity = client.targetedEntity;
+					if (entity != null && entity instanceof MobEntity && entity instanceof MobEntityInterface && !((MobEntityInterface) entity).isZombe()
 //					){
-						&& stages > 2 && (stages == 3 ? entity.getType().isIn(INTELLIGENT_BEINGS) : true)) {
-					((MobEntityInterface) entity).Infections(client);
+							&& (stages == 3 ? entity.getType().isIn(INTELLIGENT_BEINGS) : true) && ((MinecraftClientInterface)client).getZombesUUID().size()<maxZomie) {
+						((MobEntityInterface) entity).Infections(client);
 
-				}
+					}
 			}
 		});
 

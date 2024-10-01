@@ -7,6 +7,7 @@
 		"ItemsMixin",
 		"MinecraftClientMixin",
 		"MobEntityMixin",
+		"PlayerEntityMixin",
 		"textures.CowEntityRendererMixin",
 		"textures.ChickenEntityRendererMixin",
 		"textures.PigEntityRendererMixin",

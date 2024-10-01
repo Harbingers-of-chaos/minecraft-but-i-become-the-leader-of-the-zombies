@@ -6,9 +6,12 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityCombatEvents;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.client.render.Camera;
 import net.minecraft.entity.EntityType;
 import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.server.command.CommandManager;
+import net.minecraft.server.command.SpectateCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +28,7 @@ public class Leaderofthezombies implements ModInitializer {
 	public static byte collected = 0;
 	public static String exercise;
 	public static String exemple;
+	public static int maxZomie = 0;
 	@Override
 	public void onInitialize() {
 		setStages(1);
@@ -61,26 +65,32 @@ public class Leaderofthezombies implements ModInitializer {
 			case 1:
 				exercise = "Съесть 15 кусков сырого мяса";
 				exemple = "Съедено: ";
+				maxZomie = 0;
 				break;
 			case 2:
 				exercise = "Убить 5 жителей";
 				exemple = "Убито: ";
+				maxZomie = 0;
 				break;
 			case 3:
 				exercise = "Заразить 10 разумных существ: жители, разбойники и пиглины";
 				exemple = "Заражено: ";
+				maxZomie = 25;
 				break;
 			case 4:
 				exercise = "Заразить 10 существ не своими зубами";
 				exemple = "Заражено: ";
+				maxZomie = 25;
 				break;
 			case 5:
 				exercise = "Заполнить лимит по зароженным существам";
 				exemple = "Заражено: ";
+				maxZomie = 45;
 				break;
 			case 6:
 				exercise = "Заразить вирусом одного из двух боссов";
 				exemple = "Заражено: ";
+				maxZomie = 45;
 				break;
 		}
 	}
