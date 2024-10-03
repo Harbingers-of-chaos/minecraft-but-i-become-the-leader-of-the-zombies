@@ -8,6 +8,7 @@ import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.gui.screen.world.EditGameRulesScreen;
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
+import net.minecraft.client.input.KeyboardInput;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.entity.Entity;
@@ -27,7 +28,7 @@ public class LeaderofthezombiesClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-
+		if (MC.player != null&& MC.player.input != null)LOGGER.info(MC.player.input.toString());
 		KeyBindingHelper.registerKeyBinding(CONTROL);
 		KeyBindingHelper.registerKeyBinding(INFECTIONS);
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
