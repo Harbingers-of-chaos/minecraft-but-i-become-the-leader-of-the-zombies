@@ -3,6 +3,8 @@ package su.harbingers_of_chaos.mixin;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.entity.GhastEntityRenderer;
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.control.JumpControl;
+import net.minecraft.entity.ai.control.LookControl;
 import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.DataTracked;
@@ -36,6 +38,7 @@ import su.harbingers_of_chaos.Leaderofthezombies;
 import su.harbingers_of_chaos.interfaces.MinecraftClientInterface;
 import su.harbingers_of_chaos.interfaces.MobEntityInterface;
 import su.harbingers_of_chaos.util.ModTags;
+import su.harbingers_of_chaos.util.ZombeMoveControl;
 
 import static net.minecraft.entity.MovementType.SELF;
 import static su.harbingers_of_chaos.Leaderofthezombies.LOGGER;
@@ -52,11 +55,13 @@ public class MobEntityMixin implements MobEntityInterface  {
     private static TrackedData<Byte> MOB_FLAGS;
     @Shadow
     private MoveControl moveControl;
+    @Shadow
+    private LookControl lookControl;
+    @Shadow
+    private JumpControl jumpControl;
 
     //    private static final TrackedData<Boolean> ZOMBE = DataTracker.registerData(MobEntity.class, TrackedDataHandlerRegistry.BOOLEAN);;
 
-    @Shadow protected MoveControl moveControl;
-    @Shadow private boolean persistent;
     private static final byte time_tran = 0;
     @Unique
     private MobEntity mobEntity = (MobEntity) (Object) this;
@@ -107,6 +112,10 @@ public class MobEntityMixin implements MobEntityInterface  {
         double newZ = x * e + z * d;
         return new Vec3d(newX, y, newZ);
     }
+    @Inject(method = "<init>",at = @At("TAIL"))
+    void init(CallbackInfo ci) {
+        moveControl = new ZombeMoveControl(mobEntity,MC.player);
+    }
     @Inject(method = "tick",at = @At("TAIL"))
     void tick(CallbackInfo ci) {
 //        if (mobEntity.isAlive() && isControl() && MC.player != null&& MC.player.input != null) {
@@ -127,7 +136,8 @@ public class MobEntityMixin implements MobEntityInterface  {
             LOGGER.info("getId:" + mobEntity.getId());
             LOGGER.info("getUuid:" + mobEntity.getUuid());
             mobEntity.removeCommandTag("infections");
-            moveControl =
+//            moveControl = new ZombeMoveControl(mobEntity,MC.player);
+//            lookControl = new ZombeMoveControl(mobEntity,MC.player);
             setZombe(true);
             if(MC.getServer().getOverworld().getEntity(mobEntity.getUuid()) instanceof MobEntity){
                 MobEntity entity = (MobEntity) MC.getServer().getOverworld().getEntity(mobEntity.getUuid());
@@ -162,7 +172,7 @@ public class MobEntityMixin implements MobEntityInterface  {
     }
     @Override
     public void setControl(boolean control) {
-        mobEntity.setAiDisabled(control);
+//        mobEntity.setAiDisabled(control);
         byte b = (Byte)mobEntity.getDataTracker().get(MOB_FLAGS);
         mobEntity.getDataTracker().set(MOB_FLAGS, control ? (byte)(b | 16) : (byte)(b & -15));
     }
