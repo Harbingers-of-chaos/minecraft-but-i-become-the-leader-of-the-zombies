@@ -32,7 +32,7 @@ public class LeaderofthezombiesClient implements ClientModInitializer {
 		KeyBindingHelper.registerKeyBinding(CONTROL);
 		KeyBindingHelper.registerKeyBinding(INFECTIONS);
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
-			while (CONTROL.wasPressed()) {
+			while (CONTROL.wasPressed() && !((MinecraftClientInterface)MC).isControlling()) {
 				client.setScreen(new TestScreen());
 			}
 			while (INFECTIONS.wasPressed()){

@@ -3,17 +3,22 @@ package su.harbingers_of_chaos.screen;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.screen.ScreenTexts;
+import net.minecraft.server.network.ServerPlayerEntity;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+import su.harbingers_of_chaos.interfaces.MinecraftClientInterface;
 import su.harbingers_of_chaos.interfaces.MobEntityInterface;
+import su.harbingers_of_chaos.interfaces.ServerPlayerEntityInterface;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -25,12 +30,14 @@ public class EntityWidget  extends ClickableWidget {
     String name;
     MinecraftClient client;
     UUID uuid;
-    public EntityWidget(int x, int y, int width, int height, MobEntity models, String name, MinecraftClient client, UUID uuid) {
+    Screen screen;
+    public EntityWidget(int x, int y, int width, int height, MobEntity models, String name, MinecraftClient client, UUID uuid, Screen screen) {
         super(x, y, width, height, ScreenTexts.EMPTY);
         this.models = models;
         this.name = name;
         this.client = client;
         this.uuid = uuid;
+        this.screen = screen;
     }
     protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
 
@@ -100,8 +107,13 @@ public class EntityWidget  extends ClickableWidget {
     public void onClick(double mouseX, double mouseY) {
         super.onClick(mouseX, mouseY);
 
-        if (Objects.requireNonNull(this.client.getServer()).getOverworld().getEntity(uuid) instanceof MobEntityInterface mobEntity) mobEntity.setControl(true);
-        LOGGER.info("Clicked on " + this.name);
+        if (Objects.requireNonNull(this.client.getServer()).getOverworld().getEntity(uuid) instanceof MobEntityInterface mobEntity) {
+            mobEntity.setControl(true);
+            ((MinecraftClientInterface) this.client).setControlling(true, uuid);
+            if (this.client.getServer().getOverworld().getEntity(this.client.player.getUuid()) instanceof ServerPlayerEntityInterface serverPlayerEntity) serverPlayerEntity.setControlled((MobEntity) mobEntity);
+            screen.close();
+        }
+
     }
 //    @Override
 //    public boolean mouseClicked(double mouseX, double mouseY, int button) {

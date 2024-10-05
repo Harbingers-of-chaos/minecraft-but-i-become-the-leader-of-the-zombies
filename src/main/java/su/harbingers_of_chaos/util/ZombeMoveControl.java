@@ -17,23 +17,20 @@ import su.harbingers_of_chaos.interfaces.MobEntityInterface;
 import static com.mojang.text2speech.Narrator.LOGGER;
 
 public class ZombeMoveControl extends MoveControl {
-    private final MobEntity mobEntity;
     private final ClientPlayerEntity player;
-    protected ZombeMoveControl.State state;
     public ZombeMoveControl(MobEntity mobEntity, ClientPlayerEntity player) {
         super(mobEntity);
-        this.mobEntity = mobEntity;
         this.player = player;
     }
     public void tick() {
-        if (((MobEntityInterface) mobEntity).isControl()) {
+        if (((MobEntityInterface) entity).isControl()) {
             if (player != null && player.input != null) {
-                this.entity.setYaw(player.getYaw());
+//                this.entity.setYaw(player.getYaw());
                 ((LivingEntity)this.entity).setMovementSpeed(0.3f);
                 this.entity.setForwardSpeed( player.input.movementForward  * 0.3f);
                 this.entity.setSidewaysSpeed(player.input.movementSideways * 0.3f);
-                player.input.movementForward = 0;
-                player.input.movementSideways = 0;
+//                this.entity.setJumping(player.input.jumping);
+
 //                this.entity.setMovementSpeed(0.1f);
 //                this.entity.setSidewaysSpeed(0.1f);
 

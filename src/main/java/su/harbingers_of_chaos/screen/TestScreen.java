@@ -63,7 +63,7 @@ public class TestScreen extends Screen {
         ((MinecraftClientInterface) this.client).getZombesUUID().forEach((key, value) -> {
             if (this.client.getServer().getOverworld().getEntity(value) instanceof MobEntity mobEntity) {
                 if (x[0] == 915) {x[0] = 75;x[1] += 82;}
-                this.addDrawableChild(new EntityWidget(x[0], x[1], 50, 70, mobEntity, key, client, value));
+                this.addDrawableChild(new EntityWidget(x[0], x[1], 50, 70, mobEntity, key, client, value,this));
                 x[0] += 70;
             }
         });

@@ -8,6 +8,7 @@
 		"MinecraftClientMixin",
 		"MobEntityMixin",
 		"PlayerEntityMixin",
+		"ServerPlayerEntityMixin",
 		"textures.CowEntityRendererMixin",
 		"textures.ChickenEntityRendererMixin",
 		"textures.PigEntityRendererMixin",

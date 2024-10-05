@@ -9,4 +9,7 @@ public interface MinecraftClientInterface {
 //    public LinkedHashMap<String, MobEntity> getZombes();
     public LinkedHashMap<String, UUID> getZombesUUID();
     public void addZombee(MobEntity zombee);
+    public boolean isControlling();
+    public void setControlling(boolean control,UUID uuid);
+    public UUID getControlled();
 }
