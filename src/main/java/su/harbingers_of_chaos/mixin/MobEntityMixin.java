@@ -133,6 +133,14 @@ public class MobEntityMixin implements MobEntityInterface  {
                     Leaderofthezombies.setStages(0);
                 }
             }
+            if (stages == 4){
+                if(((MinecraftClientInterface)client).isControlling()) {
+                    collected++;
+                    if (collected == 10) {
+                        Leaderofthezombies.setStages(0);
+                    }
+                }
+            }
         }
     }
 
