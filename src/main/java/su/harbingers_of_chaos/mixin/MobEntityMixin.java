@@ -26,8 +26,7 @@ import su.harbingers_of_chaos.util.ZombeJumpControl;
 import su.harbingers_of_chaos.util.ZombeLookControl;
 import su.harbingers_of_chaos.util.ZombeMoveControl;
 
-import static su.harbingers_of_chaos.Leaderofthezombies.collected;
-import static su.harbingers_of_chaos.Leaderofthezombies.stages;
+import static su.harbingers_of_chaos.Leaderofthezombies.*;
 import static su.harbingers_of_chaos.LeaderofthezombiesClient.MC;
 
 @Mixin(MobEntity.class)
@@ -86,9 +85,8 @@ public class MobEntityMixin implements MobEntityInterface  {
 
     @Inject(method = "readCustomDataFromNbt",at = @At("TAIL"))
     void readCustomDataFromNbt(NbtCompound nbt,CallbackInfo ci) {
-//        LOGGER.info("read zombie:"+nbt.getBoolean("zombie"));
-        this.setZombe(nbt.getBoolean("zombie"));
-        this.setControl(nbt.getBoolean("control"));
+        if (this.isControl() != nbt.getBoolean("zombie")) this.setZombe(nbt.getBoolean("zombie"));
+        if (this.isControl() != nbt.getBoolean("control")) this.setControl(nbt.getBoolean("control"));
     }
     @Override
     public void setZombe(boolean zombe) {
@@ -97,9 +95,15 @@ public class MobEntityMixin implements MobEntityInterface  {
     }
     @Override
     public void setControl(boolean control) {
-//        mobEntity.setAiDisabled(control);
+//        LOGGER.info(String.valueOf(control));
+//        LOGGER.info("control:"+isControl());
+//        LOGGER.info("zombie:"+isZombe());
         byte b = (Byte)mobEntity.getDataTracker().get(MOB_FLAGS);
-        mobEntity.getDataTracker().set(MOB_FLAGS, control ? (byte)(b | 16) : (byte)(b & -15));
+//        LOGGER.info("byte:"+(b));
+//        LOGGER.info("byte:"+(control ? (byte)(b | 16) : (byte)(b & -15)));
+        mobEntity.getDataTracker().set(MOB_FLAGS, control ? (byte)(b | 16) : (byte)(b & -17));
+//        LOGGER.info("control:"+isControl());
+//        LOGGER.info("zombie:"+isZombe());
     }
     @Override
     public void setPlayer(PlayerEntity player) {

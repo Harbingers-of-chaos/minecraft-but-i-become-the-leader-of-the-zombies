@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import su.harbingers_of_chaos.interfaces.MinecraftClientInterface;
+import su.harbingers_of_chaos.interfaces.MobEntityInterface;
 import su.harbingers_of_chaos.interfaces.Stages;
 
 import java.util.LinkedHashMap;
@@ -28,7 +29,7 @@ public class MinecraftClientMixin implements MinecraftClientInterface {
     @Unique
     private boolean controlling = false;
     @Unique
-    private UUID controlled;
+    private MobEntityInterface controlled;
 
     @Inject(method = "hasOutline", at = @At("HEAD"), cancellable = true)
     private void outlineEntities(Entity entity, CallbackInfoReturnable<Boolean> ci) {
@@ -45,9 +46,13 @@ public class MinecraftClientMixin implements MinecraftClientInterface {
         ((Stages) minecraftClient.getServer().getPlayerManager().getPlayer(minecraftClient.player.getUuid()).getAbilities()).setZombies(String.valueOf(zombiesUUID.size()), zombee.getUuid());
     }
     @Override
-    public void setControlling(boolean control,UUID uuid) {
+    public void setControlling(boolean control,MobEntityInterface mob) {
         controlling = control;
-        controlled = uuid;
+        controlled = mob;
+    }    @Override
+    public void setControlling(boolean control) {
+        controlling = control;
+        controlled.setControl(false);
     }
     @Override
     public boolean isControlling() {
@@ -55,7 +60,7 @@ public class MinecraftClientMixin implements MinecraftClientInterface {
     }
 
     @Override
-    public UUID getControlled() {
+    public MobEntityInterface getControlled() {
         return controlled;
     }
 }

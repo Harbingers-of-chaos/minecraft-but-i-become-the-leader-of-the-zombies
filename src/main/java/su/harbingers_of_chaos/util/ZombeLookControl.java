@@ -5,6 +5,8 @@ import net.minecraft.entity.ai.control.LookControl;
 import net.minecraft.entity.mob.MobEntity;
 import su.harbingers_of_chaos.interfaces.MobEntityInterface;
 
+import static com.mojang.text2speech.Narrator.LOGGER;
+
 public class ZombeLookControl extends LookControl {
 
     private final ClientPlayerEntity player;
@@ -17,9 +19,9 @@ public class ZombeLookControl extends LookControl {
     public void tick() {
         if (((MobEntityInterface) entity).isControl()) {
             if (player != null && player.input != null) {
+//                LOGGER.info("look");
 //                this.entity.setYaw(player.getYaw());
-                this.entity.setYaw(player.getYaw());
-                this.entity.setPitch(player.getPitch());
+                this.entity.setAngles(player.getYaw(),player.getPitch());
                 this.entity.headYaw = player.getYaw();
             }
         }else super.tick();

@@ -25,8 +25,9 @@ public class ZombeMoveControl extends MoveControl {
     public void tick() {
         if (((MobEntityInterface) entity).isControl()) {
             if (player != null && player.input != null) {
+//                LOGGER.info("move");
 //                this.entity.setYaw(player.getYaw());
-                ((LivingEntity)this.entity).setMovementSpeed(0.3f);
+                ((LivingEntity)this.entity).setMovementSpeed((float)entity.getAttributeValue(EntityAttributes.GENERIC_MOVEMENT_SPEED));
                 this.entity.setForwardSpeed( player.input.movementForward  * 0.3f);
                 this.entity.setSidewaysSpeed(player.input.movementSideways * 0.3f);
 //                this.entity.setJumping(player.input.jumping);
@@ -36,16 +37,5 @@ public class ZombeMoveControl extends MoveControl {
 
             }
         }else super.tick();
-    }
-    private boolean isPosWalkable(float x, float z) {
-        EntityNavigation entityNavigation = this.entity.getNavigation();
-        if (entityNavigation != null) {
-            PathNodeMaker pathNodeMaker = entityNavigation.getNodeMaker();
-            if (pathNodeMaker != null && pathNodeMaker.getDefaultNodeType(this.entity, BlockPos.ofFloored(this.entity.getX() + (double)x, (double)this.entity.getBlockY(), this.entity.getZ() + (double)z)) != PathNodeType.WALKABLE) {
-                return false;
-            }
-        }
-
-        return true;
     }
 }

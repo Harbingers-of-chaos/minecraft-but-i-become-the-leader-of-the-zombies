@@ -109,7 +109,7 @@ public class EntityWidget  extends ClickableWidget {
 
         if (Objects.requireNonNull(this.client.getServer()).getOverworld().getEntity(uuid) instanceof MobEntityInterface mobEntity) {
             mobEntity.setControl(true);
-            ((MinecraftClientInterface) this.client).setControlling(true, uuid);
+            ((MinecraftClientInterface) this.client).setControlling(true, mobEntity);
             if (this.client.getServer().getOverworld().getEntity(this.client.player.getUuid()) instanceof ServerPlayerEntityInterface serverPlayerEntity) serverPlayerEntity.setControlled((MobEntity) mobEntity);
             screen.close();
         }
